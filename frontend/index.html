@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Contact App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1>📱 QR Contact</h1>
+            </div>
+            <div class="navbar-links">
+                <button id="navLogout" class="btn-logout" style="display: none;">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Auth Section -->
+        <div id="authSection" class="auth-section">
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="tab-button active" onclick="switchTab('login')">Login</button>
+                <button class="tab-button" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginTab" class="tab-content active">
+                <h2>Welcome Back</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupTab" class="tab-content">
+                <h2>Create Your Profile</h2>
+                <form id="signupForm" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signupUsername">Username</label>
+                        <input type="text" id="signupUsername" placeholder="Choose a username" required minlength="3">
+                        <small>3-50 characters, alphanumeric and underscore only</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="At least 8 characters" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPhone">Phone Number</label>
+                        <input type="tel" id="signupPhone" placeholder="Your phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupWhatsapp">WhatsApp Number</label>
+                        <input type="tel" id="signupWhatsapp" placeholder="Your WhatsApp number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupInstructions">Instructions (Optional)</label>
+                        <textarea id="signupInstructions" placeholder="e.g., Available 9AM-5PM" maxlength="500" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign Up</button>
+                    <div id="signupError" class="error-message"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="dashboard-section" style="display: none;">
+            <h2>Welcome, <span id="dashboardUsername"></span>!</h2>
+
+            <!-- Profile Section -->
+            <div class="profile-card">
+                <h3>Your Profile</h3>
+                <div class="profile-info">
+                    <p><strong>Username:</strong> <span id="profileUsername"></span></p>
+                    <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+                    <p><strong>WhatsApp:</strong> <span id="profileWhatsapp"></span></p>
+                    <p><strong>Instructions:</strong> <span id="profileInstructions"></span></p>
+                    <p><strong>Profile URL:</strong> <input type="text" id="profileUrl" readonly class="copy-input"></p>
+                </div>
+                <button class="btn-secondary" onclick="copyProfileLink()">📋 Copy Link</button>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <h3>Your QR Code</h3>
+                <div id="qrContainer" class="qr-container"></div>
+                <button class="btn-primary" onclick="generateQRCode()">🔄 Generate QR Code</button>
+                <button class="btn-secondary" onclick="downloadQRCode()" style="display: none;" id="downloadQRBtn">📥 Download QR Code</button>
+            </div>
+
+            <!-- Edit Profile Section -->
+            <div class="edit-profile-card">
+                <h3>Update Profile</h3>
+                <form id="updateForm" onsubmit="handleUpdate(event)">
+                    <div class="form-group">
+                        <label for="updatePhone">Phone Number</label>
+                        <input type="tel" id="updatePhone" placeholder="Update your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateWhatsapp">WhatsApp Number</label>
+                        <input type="tel" id="updateWhatsapp" placeholder="Update your WhatsApp number">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateInstructions">Instructions</label>
+                        <textarea id="updateInstructions" placeholder="Update your instructions" maxlength="500" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                    <div id="updateError" class="error-message"></div>
+                </form>
+            </div>
+
+            <!-- Analytics Section (Bonus) -->
+            <div class="analytics-card">
+                <h3>Profile Analytics</h3>
+                <div id="analyticsContainer">
+                    <p>Loading analytics...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
