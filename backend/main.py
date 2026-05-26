@@ -44,9 +44,18 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title=APP_NAME, version="1.0.0")
 
 # CORS Configuration
+allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+    "http://localhost:5173",
+    "https://ring.onrender.com",
+    "https://*.onrender.com",
+    "*",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify allowed origins
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

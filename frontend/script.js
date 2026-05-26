@@ -2,7 +2,11 @@
 // CONFIGURATION
 // ============================================================================
 
-const API_URL = 'http://localhost:8000';
+// Determine API URL based on environment
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8000'
+  : 'https://ring-api.onrender.com';
+
 let currentToken = null;
 let currentUser = null;
 
