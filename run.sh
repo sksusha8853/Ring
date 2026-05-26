@@ -29,8 +29,7 @@ mkdir -p $LOG_DIR
 
 echo ""
 echo "Starting services..."
-echo "🔵 Backend will run on: http://localhost:8000"
-echo "🟢 Frontend will run on: http://localhost:8001"
+echo "🔵 Backend (with frontend) will run on: http://localhost:8000"
 echo "API Docs: http://localhost:8000/docs"
 echo ""
 echo "Press Ctrl+C to stop all services"
@@ -43,42 +42,30 @@ python main.py > "../$LOG_DIR/backend.log" 2>&1 &
 BACKEND_PID=$!
 echo "✓ Backend started (PID: $BACKEND_PID)"
 
-# Start frontend in background
-cd ../frontend
-python3 -m http.server 8001 > "../$LOG_DIR/frontend.log" 2>&1 &
-FRONTEND_PID=$!
-echo "✓ Frontend started (PID: $FRONTEND_PID)"
-
 cd ..
 
-# Wait for servers to start
+# Wait for server to start
 sleep 2
 
-# Check if servers are running
+# Check if backend is running
 if ! kill -0 $BACKEND_PID 2>/dev/null; then
     echo "❌ Backend failed to start. Check logs:"
     cat "$LOG_DIR/backend.log"
     exit 1
 fi
 
-if ! kill -0 $FRONTEND_PID 2>/dev/null; then
-    echo "❌ Frontend failed to start. Check logs:"
-    cat "$LOG_DIR/frontend.log"
-    exit 1
-fi
-
 echo ""
-echo "✅ All services started successfully!"
+echo "✅ Backend started successfully!"
 echo ""
-echo "Open your browser and go to: http://localhost:8001"
+echo "Open your browser and go to: http://localhost:8000"
 echo ""
 
 # Function to cleanup
 cleanup() {
     echo ""
     echo "Shutting down services..."
-    kill $BACKEND_PID $FRONTEND_PID 2>/dev/null
-    wait $BACKEND_PID $FRONTEND_PID 2>/dev/null
+    kill $BACKEND_PID 2>/dev/null
+    wait $BACKEND_PID 2>/dev/null
     echo "✓ Services stopped"
     exit 0
 }

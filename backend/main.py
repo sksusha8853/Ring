@@ -667,6 +667,14 @@ async def http_exception_handler(request, exc):
         content={"detail": exc.detail}
     )
 
+# ============================================================================
+# SERVE FRONTEND STATIC FILES
+# ============================================================================
+# Mount frontend as static files - this should be LAST so API routes take priority
+frontend_path = Path(__file__).parent.parent / "frontend"
+if frontend_path.exists():
+    app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="static")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
